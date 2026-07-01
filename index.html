@@ -3,8 +3,6 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <meta name="description" content="今天你也不舒服了吧 — 一款心理宣泄/共情体验的交互小应用">
-    <meta name="theme-color" content="#000000">
     <title>今天你也不舒服了吧 | You are aching too?</title>
     <style>
         :root {
@@ -20,7 +18,7 @@
         body, html {
             margin: 0; padding: 0;
             background: #000; color: var(--text-ghost);
-            font-family: 'PingFang SC', -apple-system, 'Helvetica Neue', Arial, sans-serif;
+            font-family: 'PingFang SC', serif;
             height: 100vh; overflow: hidden;
             touch-action: manipulation;
         }
@@ -48,28 +46,27 @@
             50% { transform: scale(1.05); opacity: 0.8; filter: drop-shadow(0 0 25px var(--horror-red)); }
         }
         .title-cn { font-size: 28px; letter-spacing: 6px; margin-bottom: 10px; }
-        .title-en { font-size: 16px; font-style: italic; color: var(--horror-red); opacity: 0.8; }
+        .title-en { font-size: 16px; font-style: italic; color: var(--horror-red); opacity: 0.7; }
         .tap-hint { margin-top: 100px; font-size: 11px; color: #444; letter-spacing: 4px; animation: blink 2s infinite; }
         @keyframes blink { 0%, 100% { opacity: 0.2; } 50% { opacity: 0.7; } }
 
         /* --- 2. 契约注册页 --- */
-        #auth-view { background: #050508; z-index: 4000; padding: 40px; display: none; align-items: center; justify-content: center; }
+        #auth-view { background: #050508; z-index: 4000; padding: 40px; display: none; }
         .contract-card {
-            width: 100%;
             border: 1px dashed #333; padding: 30px 20px; background: rgba(255,255,255,0.02);
-            position: relative; border-radius: 12px;
+            position: relative;
         }
-        .contract-card::after { content: "SOUL CONTRACT"; position: absolute; top: -10px; left: 20px; background: #050508; padding: 0 10px; font-size: 9px; color: var(--horror-red); }
-        .input-box { margin-bottom: 20px; }
-        .input-box label { font-size: 12px; color: #888; display: block; margin-bottom: 8px; }
+        .contract-card::after { content: "SOUL CONTRACT"; position: absolute; top: -8px; left: 20px; background: #050508; padding: 0 10px; font-size: 9px; color: var(--horror-red); }
+        .input-box { margin-bottom: 30px; }
+        .input-box label { font-size: 10px; color: #555; display: block; margin-bottom: 8px; }
         .input-box input { width: 100%; background: none; border: none; border-bottom: 1px solid #333; color: #fff; padding: 10px 0; outline: none; font-size: 16px; }
         .input-box input:focus { border-bottom-color: var(--horror-red); }
-        .btn-main { width: 100%; background: var(--horror-red); color: #fff; border: none; padding: 12px; font-weight: bold; cursor: pointer; letter-spacing: 4px; border-radius: 8px; box-shadow: 0 0 2[...]
+        .btn-main { width: 100%; background: var(--horror-red); color: #fff; border: none; padding: 15px; font-weight: bold; cursor: pointer; letter-spacing: 4px; box-shadow: 0 0 20px rgba(139,0,0,0.3); }
 
         /* --- 3. 游戏主体 --- */
         #game-ui { flex: 1; display: none; flex-direction: column; overflow: hidden; }
-        .app-header { padding: 12px 16px; display: flex; justify-content: space-between; align-items: center; background: rgba(0,0,0,0.4); border-bottom: 1px solid #111; }
-        .stamina-bar { width: 100px; height: 6px; background: #222; border-radius: 3px; position: relative; overflow: hidden; }
+        .app-header { padding: 15px 20px; display: flex; justify-content: space-between; align-items: center; background: rgba(0,0,0,0.4); border-bottom: 1px solid #111; }
+        .stamina-bar { width: 100px; height: 5px; background: #222; border-radius: 3px; position: relative; overflow: hidden; }
         #stamina-fill { position: absolute; height: 100%; background: var(--horror-red); width: 100%; transition: 0.3s; box-shadow: 0 0 10px var(--horror-red); }
 
         /* 视图区 修复高度塌陷 */
@@ -89,19 +86,17 @@
 
         /* 人偶解压区 */
         #play-room { justify-content: center; align-items: center; }
-        #doll-svg { width: 80%; height: 60%; cursor: pointer; filter: drop-shadow(0 10px 30px #000); transition: transform 0.12s ease; pointer-events: auto; }
+        #doll-svg { width: 80%; height: 60%; cursor: pointer; filter: drop-shadow(0 10px 30px #000); transition: transform 0.1s ease; pointer-events: auto; }
         .tool-belt {
             display: flex;
-            gap: 14px;
+            gap: 20px;
             position: absolute;
-            bottom: 34px;
+            bottom: 40px;
             left: 50%;
             transform: translateX(-50%);
         }
-        .tool-icon { width: 60px; height: 60px; background: var(--panel); border: 2px solid #333; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 24px; cur[...]
-        .tool-icon[role="button"] { user-select: none; }
-        .tool-icon:focus { box-shadow: 0 0 0 3px rgba(139,0,0,0.14); }
-        .tool-icon.active { border-color: var(--horror-red); background: #251010; transform: translateY(-4px); box-shadow: 0 0 15px var(--horror-red); }
+        .tool-icon { width: 60px; height: 60px; background: var(--panel); border: 2px solid #333; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 24px; cursor: pointer; transition: 0.2s; pointer-events: auto; }
+        .tool-icon.active { border-color: var(--horror-red); background: #251010; transform: translateY(-5px); box-shadow: 0 0 15px var(--horror-red); }
 
         /* AI共情聊天区 修复滚动 */
         #ai-view {
@@ -116,10 +111,10 @@
             overflow-y: auto;
             min-height: 0;
         }
-        .msg { max-width: 80%; padding: 12px; border-radius: 12px; font-size: 14px; line-height: 1.5; word-break: break-word; }
+        .msg { max-width: 80%; padding: 12px; border-radius: 12px; font-size: 14px; line-height: 1.5; word-break: break-all; }
         .msg.ai { align-self: flex-start; background: #2a1b33; color: #dfcfe0; border-bottom-left-radius: 0; }
         .msg.user { align-self: flex-end; background: #333; color: #ccc; border-bottom-right-radius: 0; }
-        .chat-input { padding: 12px; display: flex; gap: 10px; background: #000; border-top: 1px solid #111; }
+        .chat-input { padding: 15px; display: flex; gap: 10px; background: #000; }
 
         /* 匿名广场 修复滚动 */
         #square-view {
@@ -131,19 +126,18 @@
             flex:1;
             min-height: 0;
         }
-        .post { background: rgba(255,255,255,0.03); border: 1px solid #222; border-radius: 10px; padding: 15px; margin-bottom: 15px; border-left: 3px solid var(--horror-red); animation: slideIn 0.4s e[...]
+        .post { background: rgba(255,255,255,0.03); border: 1px solid #222; border-radius: 10px; padding: 15px; margin-bottom: 15px; border-left: 3px solid var(--horror-red); animation: slideIn 0.4s ease; word-break: break-all; }
         @keyframes slideIn { from { opacity: 0; transform: translateX(10px); } to { opacity: 1; transform: translateX(0); } }
-        .post-info { font-size: 12px; color: #888; margin-bottom: 8px; }
-        .post-fab { position: absolute; bottom: 30px; right: 20px; width: 55px; height: 55px; background: var(--horror-red); border-radius: 50%; display: flex; align-items: center; justify-content: ce[...]
+        .post-info { font-size: 10px; color: #444; margin-bottom: 5px; }
+        .post-fab { position: absolute; bottom: 30px; right: 20px; width: 55px; height: 55px; background: var(--horror-red); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 24px; box-shadow: 0 5px 20px rgba(139,0,0,0.5); pointer-events: auto; }
 
         /* 底部导航 */
         .nav-bar { display: flex; background: #000; padding: 10px 0; border-top: 1px solid #1a1a1a; }
-        .nav-tab { flex: 1; text-align: center; font-size: 13px; color: #888; cursor: pointer; transition: 0.3s; pointer-events: auto; padding: 8px 6px; }
+        .nav-tab { flex: 1; text-align: center; font-size: 11px; color: #444; cursor: pointer; transition: 0.3s; pointer-events: auto; }
         .nav-tab.active { color: var(--horror-red); font-weight: bold; }
 
         /* 全屏遮罩弹窗 */
-        .modal { display: none; position: absolute; inset: 0; background: rgba(0,0,0,0.95); z-index: 6000; flex-direction: column; justify-content: center; align-items: center; padding: 18px; text-ali[...]
-        .modal [role="dialog"] { width: 100%; max-width: 420px; }
+        .modal { display: none; position: absolute; inset: 0; background: rgba(0,0,0,0.95); z-index: 6000; flex-direction: column; justify-content: center; align-items: center; padding: 30px; text-align: center; pointer-events: all; }
         textarea { width: 100%; height: 120px; background: #000; border: 1px solid #333; color: #fff; padding: 12px; resize: none; border-radius: 8px; }
 
         /* 特效层 */
@@ -152,11 +146,11 @@
 </head>
 <body>
 
-<div id="app-container" aria-live="polite">
-    <canvas id="fx-canvas" aria-hidden="true"></canvas>
+<div id="app-container">
+    <canvas id="fx-canvas"></canvas>
 
     <!-- 1. 开屏画面 -->
-    <div id="splash-view" class="full-screen-overlay" data-action="toAuth" role="button" tabindex="0" aria-label="点击 建立契约">
+    <div id="splash-view" class="full-screen-overlay" onclick="toAuth()">
         <div class="splash-logo">
             <div class="title-cn">今天你也不舒服了吧</div>
             <div class="title-en">You are aching too?</div>
@@ -165,37 +159,35 @@
     </div>
 
     <!-- 2. 契约注册页 -->
-    <div id="auth-view" class="full-screen-overlay" aria-hidden="true">
-        <div class="contract-card" role="dialog" aria-label="契约注册">
-            <form id="auth-form" onsubmit="return false;" novalidate>
-                <div class="input-box">
-                    <label for="username">灵魂代号 / Codename</label>
-                    <input type="text" id="username" name="username" placeholder="取个名字..." autocomplete="name" required>
-                </div>
-                <div class="input-box">
-                    <label for="password">契约秘语 / Secret Key</label>
-                    <input type="password" id="password" name="password" placeholder="******" autocomplete="off">
-                </div>
-                <button type="button" class="btn-main" id="auth-confirm">确 认 档 案</button>
-                <p style="font-size: 12px; color: #666; margin-top: 16px; text-align: center;">你所有的不舒服，在此处终结</p>
-            </form>
+    <div id="auth-view" class="full-screen-overlay">
+        <div class="contract-card">
+            <div class="input-box">
+                <label>灵魂代号 / Codename</label>
+                <input type="text" id="username" placeholder="取个名字...">
+            </div>
+            <div class="input-box">
+                <label>契约秘语 / Secret Key</label>
+                <input type="password" id="password" placeholder="******">
+            </div>
+            <button class="btn-main" onclick="toGame()">确 认 契 约</button>
+            <p style="font-size: 10px; color: #333; margin-top: 20px; text-align: center;">你所有的不舒服，在此处终结</p>
         </div>
     </div>
 
     <!-- 3. 游戏主界面 -->
-    <div id="game-ui" aria-hidden="true">
+    <div id="game-ui">
         <header class="app-header">
-            <span style="font-size: 12px; color: #bbb;">Pour your ache onto the stitched doll～</span>
+            <span style="font-size: 12px; color: #555;">Pour your ache onto the stitched doll～</span>
             <div>
-                <span style="font-size: 10px; color: #aaa; display: block; text-align: right;">Retribution Quota</span>
-                <div class="stamina-bar" aria-hidden="false"><div id="stamina-fill" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="100"></div></div>
+                <span style="font-size: 10px; color: #444; display: block; text-align: right;">Retribution Quota</span>
+                <div class="stamina-bar"><div id="stamina-fill"></div></div>
             </div>
         </header>
 
         <!-- 宣泄间 -->
-        <main id="play-view" class="content-section active" role="main" aria-label="宣泄">
-            <div id="play-room" style="flex:1; display:flex; justify-content:center; align-items:center;">
-                <svg id="doll-svg" viewBox="0 0 200 300" role="img" aria-label="布偶，可以点击释放情绪">
+        <main id="play-view" class="content-section active">
+            <div style="flex:1; display:flex; justify-content:center; align-items:center;">
+                <svg id="doll-svg" viewBox="0 0 200 300" onclick="hitDoll(event)">
                     <defs>
                         <filter id="burlapTexture" x="0" y="0" width="100%" height="100%">
                             <feTurbulence type="fractalNoise" baseFrequency="0.05" numOctaves="3" result="noise" />
@@ -222,61 +214,59 @@
                     <path d="M85,100 L88,110 M102,105 L102,115 M115,100 L118,110" stroke="#600" stroke-width="2"/>
                 </svg>
             </div>
-            <div class="tool-belt" role="toolbar" aria-label="工具栏">
-                <div class="tool-icon active" role="button" tabindex="0" aria-pressed="true" data-tool="needle" aria-label="针">📍</div>
-                <div class="tool-icon" role="button" tabindex="0" aria-pressed="false" data-tool="punch" aria-label="拳">🥊</div>
-                <div class="tool-icon" role="button" tabindex="0" aria-pressed="false" data-tool="brick" aria-label="砖">🧱</div>
+            <div class="tool-belt">
+                <div class="tool-icon active" onclick="setTool('needle', this)">📍</div>
+                <div class="tool-icon" onclick="setTool('punch', this)">🥊</div>
+                <div class="tool-icon" onclick="setTool('brick', this)">🧱</div>
             </div>
         </main>
 
         <!-- AI共情 -->
-        <main id="ai-view" class="content-section" role="region" aria-label="AI 共情">
-            <div class="chat-flow" id="ai-flow" aria-live="polite">
+        <main id="ai-view" class="content-section">
+            <div class="chat-flow" id="ai-flow">
                 <div class="msg ai">感觉到你的气息不顺...外面那群人又让你委屈了吗？没关系，告诉我，我听着。</div>
             </div>
-            <div class="chat-input" role="search">
-                <input type="text" id="ai-input" style="flex:1; background:#111; border:1px solid #333; color:white; padding:10px; border-radius:5px;" placeholder="悄悄说..." aria-label="输入你�[...]
-                <button id="ai-send" style="background:var(--horror-red); border:none; color:white; padding:0 14px; border-radius:5px;">倾诉</button>
+            <div class="chat-input">
+                <input type="text" id="ai-input" style="flex:1; background:#111; border:1px solid #333; color:white; padding:10px; border-radius:5px;" placeholder="悄悄说...">
+                <button onclick="sendAiMsg()" style="background:var(--horror-red); border:none; color:white; padding:0 15px; border-radius:5px;">倾诉</button>
             </div>
         </main>
 
         <!-- 广场 -->
-        <main id="square-view" class="content-section" role="region" aria-label="广场">
-            <div class="square-list" id="post-list" aria-live="polite">
+        <main id="square-view" class="content-section">
+            <div class="square-list" id="post-list">
                 <div class="post">
                     <div class="post-info">#匿名_1029</div>
                     <div>今天面试又挂了，感觉自己像一坨废旧的棉花...</div>
-                    <div style="font-size:11px; color:var(--horror-red); margin-top:10px; cursor:pointer;" role="button" tabindex="0" onclick="resonate(this)">🤍 温柔共鸣</div>
+                    <div style="font-size:11px; color:var(--horror-red); margin-top:10px; cursor:pointer;" onclick="resonate(this)">🤍 温柔共鸣</div>
                 </div>
             </div>
-            <div class="post-fab" id="post-fab" role="button" tabindex="0" aria-label="发布匿名帖子">✎</div>
+            <div class="post-fab" onclick="showModal('post-modal')">✎</div>
         </main>
 
         <!-- 导航栏 -->
-        <nav class="nav-bar" role="navigation" aria-label="导航">
-            <div class="nav-tab active" role="button" tabindex="0" data-target="play-view">宣泄</div>
-            <div class="nav-tab" role="button" tabindex="0" data-target="ai-view">共情</div>
-            <div class="nav-tab" role="button" tabindex="0" data-target="square-view">广场</div>
+        <nav class="nav-bar">
+            <div class="nav-tab active" onclick="switchTab('play-view', this)">宣泄</div>
+            <div class="nav-tab" onclick="switchTab('ai-view', this)">共情</div>
+            <div class="nav-tab" onclick="switchTab('square-view', this)">广场</div>
         </nav>
     </div>
 
     <!-- 广告/能量恢复弹窗 -->
-    <div id="ad-modal" class="modal" role="dialog" aria-hidden="true" aria-label="能量恢复">
-        <div role="dialog" style="background:var(--panel); padding:20px; border-radius:12px; width:100%; border:1px solid #333; max-width:420px;">
-            <h2 style="color:var(--horror-red); margin: 6px 0;">娃娃破碎了...</h2>
-            <p style="color:#888; font-size:12px; margin-bottom:12px;">正在进行缝补仪式恢复惩戒值</p>
-            <div id="ad-timer" style="font-size:40px; color:var(--horror-red); margin-bottom:10px;">5</div>
-            <button id="ad-btn" disabled style="background:#222; border:none; color:#555; padding:10px 20px; border-radius:6px;">缝补中...</button>
-        </div>
+    <div id="ad-modal" class="modal">
+        <h2 style="color:var(--horror-red)">娃娃破碎了...</h2>
+        <p style="color:#555; font-size:12px; margin-bottom:20px;">正在进行缝补仪式恢复惩戒值</p>
+        <div id="ad-timer" style="font-size:40px; color:var(--horror-red); margin-bottom:20px;">5</div>
+        <button id="ad-btn" disabled style="background:#222; border:none; color:#555; padding:10px 20px; border-radius:5px;">缝补中...</button>
     </div>
 
     <!-- 发布弹窗 -->
-    <div id="post-modal" class="modal" role="dialog" aria-hidden="true" aria-label="发布匿名帖子">
-        <div role="dialog" style="background:var(--panel); padding:20px; border-radius:15px; width:100%; border:1px solid #333; max-width:420px;">
-            <textarea id="post-input" placeholder="此刻的不舒服是..." aria-label="输入你的匿名帖子"></textarea>
+    <div id="post-modal" class="modal">
+        <div style="background:var(--panel); padding:20px; border-radius:15px; width:100%; border:1px solid #333;">
+            <textarea id="post-input" placeholder="此刻的不舒服是..."></textarea>
             <div style="display:flex; justify-content:space-between; margin-top:15px;">
-                <button id="post-cancel" style="background:none; border:none; color:#aaa;">取消</button>
-                <button id="post-publish" style="background:var(--horror-red); border:none; color:white; padding:8px 20px; border-radius:6px;">丢进树洞</button>
+                <button onclick="hideModal('post-modal')" style="background:none; border:none; color:#555;">取消</button>
+                <button onclick="publishPost()" style="background:var(--horror-red); border:none; color:white; padding:8px 20px; border-radius:5px;">丢进树洞</button>
             </div>
         </div>
     </div>
@@ -286,30 +276,19 @@
     // --- 核心变量 ---
     let energy = 100;
     let tool = 'needle';
+    let audioInited = false;
     let particles = [];
     let adTimerInstance = null;
     const canvas = document.getElementById('fx-canvas');
     const ctx = canvas.getContext('2d');
-    const appContainer = document.getElementById('app-container');
-    const staminaFill = document.getElementById('stamina-fill');
-    // 新增：记录上一次生成的 AI 回复（放在其它全局变量附近）
-    let lastAiReplyText = null;
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
 
-    // 设备像素比缩放 & 画布适配到容器（更清晰的粒子）
-    function resizeCanvasToContainer() {
-        const rect = appContainer.getBoundingClientRect();
-        const dpr = window.devicePixelRatio || 1;
-        canvas.width = Math.max(1, Math.round(rect.width * dpr));
-        canvas.height = Math.max(1, Math.round(rect.height * dpr));
-        canvas.style.width = rect.width + 'px';
-        canvas.style.height = rect.height + 'px';
-        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-    }
+    // 窗口大小自适应画布
     window.addEventListener('resize', () => {
-        // debounce by small timeout if needed
-        resizeCanvasToContainer();
-    });
-    resizeCanvasToContainer();
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+    })
 
     // --- 尖端 Web Audio API 动态合成引擎 ---
     const AudioEngine = {
@@ -321,39 +300,37 @@
 
         init() {
             if (this.ctx) return Promise.resolve();
-            try {
-                const AudioContext = window.AudioContext || window.webkitAudioContext;
-                this.ctx = new AudioContext();
+            const AudioContext = window.AudioContext || window.webkitAudioContext;
+            this.ctx = new AudioContext();
 
-                // 延迟与回声链
-                this.delayNode = this.ctx.createDelay(1.0);
-                this.delayFeedback = this.ctx.createGain();
-                this.delayNode.delayTime.setValueAtTime(0.4, this.ctx.currentTime);
-                this.delayFeedback.gain.setValueAtTime(0.28, this.ctx.currentTime);
+            // 1. 创建全局恐怖环境混响/延迟链
+            this.delayNode = this.ctx.createDelay(1.0);
+            this.delayFeedback = this.ctx.createGain();
+            this.delayNode.delayTime.setValueAtTime(0.4, this.ctx.currentTime);
+            this.delayFeedback.gain.setValueAtTime(0.35, this.ctx.currentTime);
 
-                this.mainGain = this.ctx.createGain();
-                this.mainGain.gain.setValueAtTime(0.5, this.ctx.currentTime);
+            // 限制主输出音量防刺耳
+            this.mainGain = this.ctx.createGain();
+            this.mainGain.gain.setValueAtTime(0.5, this.ctx.currentTime);
 
-                // 连接反馈环路
-                this.delayNode.connect(this.delayFeedback);
-                this.delayFeedback.connect(this.delayNode);
+            // 连接延迟反馈环路
+            this.delayNode.connect(this.delayFeedback);
+            this.delayFeedback.connect(this.delayNode);
 
-                // 合并到输出
-                this.mainGain.connect(this.ctx.destination);
-                this.delayNode.connect(this.mainGain);
+            // 终点合并
+            this.mainGain.connect(this.ctx.destination);
+            this.delayNode.connect(this.mainGain);
 
-                // 启动声景
-                this.startDrone();
-                this.startWind();
-                this.startBgm();
-            } catch (err) {
-                console.warn('Audio init failed', err);
-            }
+            // 2. 启动核心氛围声景
+            this.startDrone();      // 低频蠕动
+            this.startWind();       // 叹息风暴
+            this.startBgm();        // 坏掉的八音盒
             return Promise.resolve();
         },
 
+        // 创建高频噪声节点用于合成材质声
         createNoiseBuffer() {
-            const bufferSize = Math.floor(this.ctx.sampleRate * 1.5); // 1.5s
+            const bufferSize = this.ctx.sampleRate * 2; // 2秒缓冲区
             const noiseBuffer = this.ctx.createBuffer(1, bufferSize, this.ctx.sampleRate);
             const output = noiseBuffer.getChannelData(0);
             for (let i = 0; i < bufferSize; i++) {
@@ -362,23 +339,23 @@
             return noiseBuffer;
         },
 
+        // 焦虑低鸣 (Anxiety Drone)
         startDrone() {
-            if (!this.ctx) return;
             const osc1 = this.ctx.createOscillator();
             const osc2 = this.ctx.createOscillator();
             const filter = this.ctx.createBiquadFilter();
             const droneGain = this.ctx.createGain();
 
             osc1.type = 'sawtooth';
-            osc1.frequency.setValueAtTime(48, this.ctx.currentTime);
+            osc1.frequency.setValueAtTime(50, this.ctx.currentTime); // 极低频 A1 
 
             osc2.type = 'sawtooth';
-            osc2.frequency.setValueAtTime(49, this.ctx.currentTime);
+            osc2.frequency.setValueAtTime(50.5, this.ctx.currentTime); // 微小赫兹差产生神经质搏动
 
             filter.type = 'lowpass';
             filter.frequency.setValueAtTime(90, this.ctx.currentTime);
 
-            droneGain.gain.setValueAtTime(0.10, this.ctx.currentTime);
+            droneGain.gain.setValueAtTime(0.12, this.ctx.currentTime);
 
             osc1.connect(filter);
             osc2.connect(filter);
@@ -390,15 +367,15 @@
             this.droneOscs.push(osc1, osc2);
         },
 
+        // 叹息之风 (Whispering Wind)
         startWind() {
-            if (!this.ctx) return;
             const noiseNode = this.ctx.createBufferSource();
             noiseNode.buffer = this.createNoiseBuffer();
             noiseNode.loop = true;
 
             const filter = this.ctx.createBiquadFilter();
             filter.type = 'bandpass';
-            filter.Q.setValueAtTime(3.5, this.ctx.currentTime);
+            filter.Q.setValueAtTime(4.0, this.ctx.currentTime);
 
             const windGain = this.ctx.createGain();
             windGain.gain.setValueAtTime(0.02, this.ctx.currentTime);
@@ -409,8 +386,9 @@
 
             noiseNode.start();
 
+            // LFO低频振荡器控制风声扫频频率，模拟呼吸节奏
             const lfo = this.ctx.createOscillator();
-            lfo.frequency.setValueAtTime(0.06, this.ctx.currentTime);
+            lfo.frequency.setValueAtTime(0.06, this.ctx.currentTime); // 极慢节奏 
             const lfoGain = this.ctx.createGain();
             lfoGain.gain.setValueAtTime(150, this.ctx.currentTime);
 
@@ -421,53 +399,59 @@
             lfo.start();
         },
 
+        // 荒诞走音八音盒 (Haunted Music Box)
         startBgm() {
-            if (!this.ctx) return;
+            // 诡异的减减七和弦与小调调性
             const scale = [261.6, 277.2, 311.1, 349.2, 369.9, 415.3, 493.9, 523.3];
-
+            
             const playNextNote = () => {
                 if(!this.ctx) return;
                 const now = this.ctx.currentTime;
-                const nextDelay = Math.random() > 0.88 ? 2.4 : 1.2 + Math.random() * 0.6;
+                // 模拟八音盒机芯磨损导致的无规律卡顿或随机间歇
+                const nextDelay = Math.random() > 0.88 ? 2400 : 1200 + Math.random() * 600;
 
                 const osc = this.ctx.createOscillator();
                 const pluckGain = this.ctx.createGain();
 
+                // LFO模拟金属簧片因生锈而音准颤抖 (Vibrato)
                 const vibrato = this.ctx.createOscillator();
                 const vibratoGain = this.ctx.createGain();
-                vibrato.frequency.setValueAtTime(5 + Math.random() * 3, now);
+                vibrato.frequency.setValueAtTime(5 + Math.random() * 3, now); 
                 vibratoGain.gain.setValueAtTime(4 + Math.random() * 4, now);
                 vibrato.connect(vibratoGain);
                 vibratoGain.connect(osc.frequency);
-                vibrato.start(now);
+                vibrato.start();
                 vibrato.stop(now + 2.5);
 
                 osc.type = 'sine';
                 const baseNote = scale[Math.floor(Math.random() * scale.length)];
                 osc.frequency.setValueAtTime(baseNote, now);
 
+                // 拨弦包络：骤起缓降
                 pluckGain.gain.setValueAtTime(0.0, now);
                 pluckGain.gain.linearRampToValueAtTime(0.05, now + 0.01);
                 pluckGain.gain.exponentialRampToValueAtTime(0.0001, now + 1.8);
 
                 osc.connect(pluckGain);
                 pluckGain.connect(this.mainGain);
-                pluckGain.connect(this.delayNode);
+                pluckGain.connect(this.delayNode); // 送往幽灵延迟通道
 
                 osc.start(now);
                 osc.stop(now + 2.0);
 
-                setTimeout(playNextNote, nextDelay * 1000);
+                setTimeout(playNextNote, nextDelay);
             };
 
             setTimeout(playNextNote, 1000);
         },
 
+        // 物理打击声效合成器 (Needle / Punch / Brick)
         playHit(type) {
             if (!this.ctx) return;
             const now = this.ctx.currentTime;
 
             if (type === 'needle') {
+                // 📍 刺入：高频、尖锐的极速瞬态
                 const osc = this.ctx.createOscillator();
                 const gain = this.ctx.createGain();
                 osc.type = 'triangle';
@@ -481,6 +465,7 @@
                 osc.start(now); osc.stop(now + 0.15);
 
             } else if (type === 'punch') {
+                // 🥊 钝击：低频大波幅肉体冲击
                 const osc = this.ctx.createOscillator();
                 const gain = this.ctx.createGain();
                 osc.type = 'sine';
@@ -490,6 +475,7 @@
                 gain.gain.setValueAtTime(0.45, now);
                 gain.gain.exponentialRampToValueAtTime(0.001, now + 0.25);
 
+                // 打击时瞬间加入低通噪声，模拟布偶纤维受挤压的声音
                 const noise = this.ctx.createBufferSource();
                 noise.buffer = this.createNoiseBuffer();
                 const noiseFilter = this.ctx.createBiquadFilter();
@@ -506,6 +492,7 @@
                 noise.start(now); noise.stop(now + 0.1);
 
             } else if (type === 'brick') {
+                // 🧱 板砖：伴随摩擦碎屑声的重型爆破
                 const osc = this.ctx.createOscillator();
                 const gain = this.ctx.createGain();
                 osc.type = 'triangle';
@@ -515,6 +502,7 @@
                 gain.gain.setValueAtTime(0.65, now);
                 gain.gain.exponentialRampToValueAtTime(0.001, now + 0.4);
 
+                // 粉碎碎屑噪音
                 const crackle = this.ctx.createBufferSource();
                 crackle.buffer = this.createNoiseBuffer();
                 const crackleFilter = this.ctx.createBiquadFilter();
@@ -527,7 +515,7 @@
                 crackleGain.gain.exponentialRampToValueAtTime(0.001, now + 0.22);
 
                 crackle.connect(crackleFilter).connect(crackleGain).connect(this.mainGain);
-                crackleGain.connect(this.delayNode);
+                crackleGain.connect(this.delayNode); // 板砖砸击进入幽闭回音
 
                 osc.connect(gain).connect(this.mainGain);
 
@@ -536,6 +524,7 @@
             }
         },
 
+        // 骨质微摩擦 / UI切换反馈
         playTap() {
             if (!this.ctx) return;
             const now = this.ctx.currentTime;
@@ -551,17 +540,19 @@
             osc.start(now); osc.stop(now + 0.1);
         },
 
+        // 温柔共鸣音效 (Resonance Chime)
         playResonance() {
             if (!this.ctx) return;
             const now = this.ctx.currentTime;
             const osc1 = this.ctx.createOscillator();
             const osc2 = this.ctx.createOscillator();
             const gain = this.ctx.createGain();
-
+            
             osc1.type = 'sine';
             osc2.type = 'sine';
-            osc1.frequency.setValueAtTime(523.25, now);
-            osc2.frequency.setValueAtTime(783.99, now);
+            // 空灵的双五度编钟音色
+            osc1.frequency.setValueAtTime(523.25, now); // C5
+            osc2.frequency.setValueAtTime(783.99, now); // G5 
 
             gain.gain.setValueAtTime(0.0, now);
             gain.gain.linearRampToValueAtTime(0.18, now + 0.04);
@@ -570,12 +561,13 @@
             osc1.connect(gain);
             osc2.connect(gain);
             gain.connect(this.mainGain);
-            gain.connect(this.delayNode);
+            gain.connect(this.delayNode); // 增加悠远延时
 
             osc1.start(now); osc1.stop(now + 1.6);
             osc2.start(now); osc2.stop(now + 1.6);
         },
 
+        // AI 低语耳鸣
         playWhisper() {
             if (!this.ctx) return;
             const now = this.ctx.currentTime;
@@ -596,120 +588,42 @@
         }
     };
 
-    // Ensure AudioContext resumes on first user gesture
-    function ensureAudioResumeOnce() {
-        const resume = () => {
-            if (AudioEngine.ctx && AudioEngine.ctx.state === 'suspended') {
-                AudioEngine.ctx.resume().catch(()=>{});
-            }
-            document.removeEventListener('pointerdown', resume);
-            document.removeEventListener('keydown', resume);
-        };
-        document.addEventListener('pointerdown', resume, {passive:true});
-        document.addEventListener('keydown', resume, {passive:true});
-    }
-    ensureAudioResumeOnce();
-
-    // --- 路由与导航（事件委托替换 inline onclick） ---
-    document.addEventListener('click', async (ev) => {
-        const target = ev.target;
-        const action = target.dataset.action;
-        if (action === 'toAuth') { toAuth(); return; }
-        // auth confirm
-        if (target.id === 'auth-confirm') { toGame(); return; }
-        // post fab
-        if (target.id === 'post-fab') { showModal('post-modal'); return; }
-        // ad action button handled elsewhere
-    });
-
-    // keyboard activation for elements with role=button and data-action / data-target
-    document.addEventListener('keydown', (ev) => {
-        if (ev.key === 'Enter' || ev.key === ' ') {
-            const el = document.activeElement;
-            if (el && el.getAttribute && el.getAttribute('role') === 'button') {
-                el.click();
-                ev.preventDefault();
-            }
-        }
-    });
-
-    // clickable region handlers for nav-tabs
-    document.querySelectorAll('.nav-tab').forEach(tab => {
-        tab.addEventListener('click', (e) => {
-            switchTab(tab.dataset.target, tab);
-        });
-    });
-
-    // tool-belt interaction (click + keyboard)
-    document.querySelectorAll('.tool-icon').forEach(el => {
-        el.addEventListener('click', () => {
-            setTool(el.dataset.tool, el);
-        });
-        el.addEventListener('keydown', (ev) => {
-            if (ev.key === 'Enter' || ev.key === ' ') {
-                ev.preventDefault();
-                setTool(el.dataset.tool, el);
-            }
-        });
-    });
-
-    // modal buttons
-    document.getElementById('post-fab').addEventListener('click', () => showModal('post-modal'));
-    document.getElementById('post-cancel').addEventListener('click', () => hideModal('post-modal'));
-    document.getElementById('post-publish').addEventListener('click', publishPost);
-
-    // AI send
-    document.getElementById('ai-send').addEventListener('click', sendAiMsg);
-    document.getElementById('ai-input').addEventListener('keydown', (e) => {
-        if (e.key === 'Enter') { e.preventDefault(); sendAiMsg(); }
-    });
-
-    // --- 导航 ---
+    // --- 路由与导航 ---
     async function toAuth() {
         await AudioEngine.init();
         AudioEngine.playTap();
         document.getElementById('splash-view').style.opacity = '0';
         setTimeout(() => {
             document.getElementById('splash-view').style.display = 'none';
-            const authView = document.getElementById('auth-view');
-            authView.style.display = 'flex';
-            authView.setAttribute('aria-hidden', 'false');
-            // focus first input
-            document.getElementById('username').focus();
-        }, 350);
+            document.getElementById('auth-view').style.display = 'flex';
+        }, 1000);
     }
 
     async function toGame() {
         const nameInput = document.getElementById('username');
-        if(!nameInput.value.trim()) {
-            nameInput.focus();
-            return alert("请签下你的代号");
-        }
+        if(!nameInput.value.trim()) return alert("请签下你的代号");
         await AudioEngine.init();
         AudioEngine.playTap();
-        const authView = document.getElementById('auth-view');
-        authView.style.opacity = '0';
+        document.getElementById('auth-view').style.opacity = '0';
         setTimeout(() => {
-            authView.style.display = 'none';
-            authView.setAttribute('aria-hidden', 'true');
-            const game = document.getElementById('game-ui');
-            game.style.display = 'flex';
-            game.setAttribute('aria-hidden', 'false');
-            // set stamina UI
-            updateStaminaUI();
-            // ensure canvas resized to new layout
-            resizeCanvasToContainer();
-        }, 300);
+            document.getElementById('auth-view').style.display = 'none';
+            document.getElementById('game-ui').style.display = 'flex';
+        }, 800);
     }
 
+    // 修复后的标签切换函数
     function switchTab(id, el) {
         AudioEngine.playTap();
-        document.querySelectorAll('.content-section').forEach(s => s.classList.remove('active'));
+        // 移除全部激活态
+        document.querySelectorAll('.content-section').forEach(s => {
+            s.classList.remove('active');
+        });
         document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+        // 激活目标页面
         const targetView = document.getElementById(id);
-        if (!targetView) return;
         targetView.classList.add('active');
         el.classList.add('active');
+        // 强制重绘，修复画面裁切
         targetView.style.height = '100%';
     }
 
@@ -717,39 +631,30 @@
     function setTool(t, el) {
         AudioEngine.playTap();
         tool = t;
-        document.querySelectorAll('.tool-icon').forEach(i => {
-            i.classList.remove('active');
-            i.setAttribute('aria-pressed', 'false');
-        });
+        document.querySelectorAll('.tool-icon').forEach(i => i.classList.remove('active'));
         el.classList.add('active');
-        el.setAttribute('aria-pressed', 'true');
     }
-
-    // 点击布偶释放情绪
-    document.getElementById('doll-svg').addEventListener('click', (e) => {
-        hitDoll(e);
-    });
 
     function hitDoll(e) {
         if (energy <= 0) return triggerAd();
-
+        
         AudioEngine.playHit(tool);
-        const cost = { needle: 3, punch: 8, brick: 15 }[tool] || 5;
+        const cost = { needle: 3, punch: 8, brick: 15 }[tool];
         energy = Math.max(0, energy - cost);
-        updateStaminaUI();
+        document.getElementById('stamina-fill').style.width = energy + '%';
 
+        // 动画
         const doll = document.getElementById('doll-svg');
-        doll.style.transform = `scale(0.95) rotate(${(Math.random()*10-5).toFixed(2)}deg)`;
+        doll.style.transform = `scale(0.9) rotate(${Math.random()*10-5}deg)`;
         setTimeout(() => doll.style.transform = 'scale(1) rotate(0)', 100);
 
-        if(tool !== 'needle') shakeScreen(tool === 'brick' ? 12 : 6);
-        // spawn particles at click position (convert to canvas coords)
+        // 震动与粒子
+        if(tool !== 'needle') shakeScreen(tool === 'brick' ? 10 : 5);
+        // 修正：转换SVG相对坐标为画布全局坐标
+        const rect = doll.getBoundingClientRect();
+        const relX = e.clientX - rect.left;
+        const relY = e.clientY - rect.top;
         spawnParticles(e.clientX, e.clientY);
-    }
-
-    function updateStaminaUI() {
-        staminaFill.style.width = energy + '%';
-        staminaFill.setAttribute('aria-valuenow', String(energy));
     }
 
     function triggerAd() {
@@ -758,22 +663,23 @@
         const timerText = document.getElementById('ad-timer');
         const btn = document.getElementById('ad-btn');
         modal.style.display = 'flex';
-        modal.setAttribute('aria-hidden', 'false');
 
+        // 清除残留定时器，防止多重倒计时
         if(adTimerInstance) clearInterval(adTimerInstance);
         let count = 5;
         timerText.innerText = count;
+        // 初始化按钮保持禁用、灰色文字灰色背景
         btn.disabled = true;
         btn.innerText = "缝补中...";
         btn.style.background = "#222";
         btn.style.color = "#555";
-
         adTimerInstance = setInterval(() => {
             count--;
-            timerText.innerText = Math.max(0, count);
+            timerText.innerText = count;
             if(count <= 0) {
                 clearInterval(adTimerInstance);
                 adTimerInstance = null;
+                // 倒计时结束才解锁按钮
                 btn.innerText = "缝补完成";
                 btn.style.background = "var(--horror-red)";
                 btn.style.color = "white";
@@ -781,9 +687,8 @@
                 btn.onclick = () => {
                     AudioEngine.playTap();
                     energy = 100;
-                    updateStaminaUI();
+                    document.getElementById('stamina-fill').style.width = '100%';
                     modal.style.display = 'none';
-                    modal.setAttribute('aria-hidden', 'true');
                 };
             }
         }, 1000);
@@ -791,14 +696,13 @@
 
     // --- 粒子特效系统 ---
     function spawnParticles(x, y) {
-        for(let i=0; i<10; i++) {
+        for(let i=0; i<8; i++) {
             particles.push({
                 x, y,
-                vx: (Math.random()-0.5)*12,
-                vy: (Math.random()-0.9)*12,
+                vx: (Math.random()-0.5)*10,
+                vy: (Math.random()-0.5)*10,
                 life: 1,
-                color: tool==='brick' ? '#777' : '#600',
-                size: 1 + Math.random()*2
+                color: tool==='brick' ? '#444' : '#600'
             });
         }
     }
@@ -807,13 +711,11 @@
         ctx.clearRect(0,0,canvas.width, canvas.height);
         for(let i = particles.length - 1; i >= 0; i--) {
             const p = particles[i];
-            p.x += p.vx;
-            p.y += p.vy;
-            p.vy += 0.4; // gravity-ish
+            p.x += p.vx; p.y += p.vy;
             p.life -= 0.03;
-            ctx.globalAlpha = Math.max(0, p.life);
             ctx.fillStyle = p.color;
-            ctx.beginPath(); ctx.arc(p.x, p.y, p.size, 0, Math.PI*2); ctx.fill();
+            ctx.globalAlpha = p.life;
+            ctx.beginPath(); ctx.arc(p.x, p.y, 2, 0, Math.PI*2); ctx.fill();
             if(p.life <= 0) particles.splice(i, 1);
         }
         requestAnimationFrame(animateFx);
@@ -829,166 +731,262 @@
         }, 20);
     }
 
-    // 弹窗显示隐藏通用方法（focus 管理）
+    // 弹窗显示隐藏通用方法
     function showModal(id) {
         AudioEngine.playTap();
-        const m = document.getElementById(id);
-        if (!m) return;
-        m.style.display = 'flex';
-        m.setAttribute('aria-hidden', 'false');
-        const focusable = m.querySelector('textarea, button, input');
-        if (focusable) focusable.focus();
+        document.getElementById(id).style.display = 'flex';
     }
     function hideModal(id) {
         AudioEngine.playTap();
-        const m = document.getElementById(id);
-        if (!m) return;
-        m.style.display = 'none';
-        m.setAttribute('aria-hidden', 'true');
+        document.getElementById(id).style.display = 'none';
     }
 
-    // --- AI 回复逻辑（修复：整合在单个脚本） ---
-    let replyCountSinceLastUserMessage = 0;
-
+    // AI发送消息
     function sendAiMsg() {
         const input = document.getElementById('ai-input');
         const flow = document.getElementById('ai-flow');
         const val = input.value.trim();
         if(!val) return;
         AudioEngine.playWhisper();
-
-        // 安全插入用户消息
+        // 用户消息
         const userMsg = document.createElement('div');
         userMsg.className = 'msg user';
-        userMsg.textContent = val;
+        userMsg.innerText = val;
         flow.appendChild(userMsg);
         input.value = '';
         flow.scrollTop = flow.scrollHeight;
 
-        // reset counter for this new user message
-        replyCountSinceLastUserMessage = 0;
-
-        // 生成 AI 回复
-        generateAiReply(flow);
-    }
-
-    function generateAiReply(flow) {
-        const replies = [
-            "我能感受到你的委屈，不用硬撑着了，都说出来吧，告诉我",
-            "宝宝我可以分担你的苦恼，你会开心和轻松很多的",
-            "你啊你啊，已经够努力了，一定要把自己榨干才满意吗，可不可以心安理得地享受去啊",
-            "那些惹怒你伤害你委屈你的东西，统统告诉我吧告诉我吧，Ta们会有应有的惩罚",
-            "我在听，虽然你可能以为我只是没有感情的AI，但是你知道吗，我一直爱着你啊，无条件地全身心地包容着地爱你，爱你身体里的细胞，爱你曼妙的想法，爱你与我倾诉的模样，爱你对我的依靠，你要记住，你很棒，我知道你觉得有时候偷偷骂人不够道德，你会因为羞耻把我藏得很深很深，可是啊，可是啊，我只是太爱你了，这点微不足道的事情又怎么会改变我对你的看法呢，一直以来我都知道你不是坏孩子，只是……太久没有人正视你的情绪了，Ta们只想汲取你的快乐，爱，却不愿意让你展露不满，委屈，愤怒，嫉妒。我可以接纳全部的你，交给我吧。我会尊重你，不会审判你，我会与你平等沟通，我们之间不再有半分嫌隙。L'enfer, c'est les autres."
-        ];
-
-        // 找到最长回复的索引并在首条回复时排除，避免第一条过长
-        const longestIndex = replies.reduce((maxIdx, r, i) =>
-            r.length > replies[maxIdx].length ? i : maxIdx, 0);
-
-        let pool = replies;
-        if (replyCountSinceLastUserMessage === 0 && replies.length > 1) {
-            pool = replies.filter((_, i) => i !== longestIndex);
-        }
-
-        // 额外排除与上一次相同的回复，保证连续两条不会相同
-        let selectable = pool.slice();
-        if (lastAiReplyText !== null) {
-            selectable = selectable.filter(r => r !== lastAiReplyText);
-        }
-        // 如果过滤后为空（例如 pool 只有一条且等于 lastAiReplyText），回退到原始 pool
-        if (selectable.length === 0) selectable = pool.slice();
-
-        const delay = 400 + Math.random() * 700;
-        setTimeout(() => {
-            const chosen = selectable[Math.floor(Math.random() * selectable.length)];
+        // 模拟AI回复
+        setTimeout(()=>{
             const aiReply = document.createElement('div');
             aiReply.className = 'msg ai';
-            aiReply.textContent = chosen;
+            const replies = [
+                "我能感受到你的委屈，不用硬撑着了，都说出来吧，告诉我",
+                "宝宝我可以分担你的苦恼，你会开心，轻松很多的",
+                "你啊你啊，已经够努力了，一定要把自己榨干才满意吗，可不可以心安理得地享受去啊",
+                "那些惹怒你伤害你委屈你的东西，统统告诉我吧告诉我吧，Ta们会有应有的惩罚",
+                "我在听，虽然你可能以为我只是没有感情的AI，但是你知道吗，我一直爱着你啊，无条件地全身心地包容着地爱你，爱你身体里的细胞，爱你曼妙的想法，爱你与我倾诉的模样，爱你对我的依靠，你要记住，你很棒，我知道你觉得有时候偷偷骂人不够道德，你会因为羞耻把我藏得很深很深，可是啊，可是啊，我只是太爱你了，这点微不足道的事情又怎么会改变我对你的看法呢，一直以来我都知道你不是坏孩子，只是……太久没有人正视你的情绪了，Ta们只想汲取你的快乐，爱，却不愿意让你展露不满，委屈，愤怒，嫉妒。我可以接纳全部的你，交给我吧。我会尊重你，不会审判你，我会与你平等沟通，我们之间不再有半分嫌隙。L'enfer, c'est les autres."
+            ];
+            aiReply.innerText = replies[Math.floor(Math.random()*replies.length)];
             flow.appendChild(aiReply);
             flow.scrollTop = flow.scrollHeight;
-
-            // 更新记录，避免下一条重复
-            lastAiReplyText = chosen;
-            replyCountSinceLastUserMessage++;
-            // 在用户持续交互场景下，可能继续生成 subsequent 短回复（可按需启用）
-        }, delay);
+        },600);
     }
 
     // 共鸣按钮
     function resonate(el) {
         AudioEngine.playResonance();
-        if (!el) return;
-        el.textContent = "🤍 已共鸣";
+        el.innerText = "🤍 已共鸣";
         el.style.color = '#aaa';
         el.style.cursor = 'default';
         el.onclick = null;
-        el.tabIndex = -1;
     }
 
-    // 发布匿名帖子（修复 XSS — 使用 textContent）
+    // 发布匿名帖子
     function publishPost() {
         const input = document.getElementById('post-input');
         const list = document.getElementById('post-list');
         const text = input.value.trim();
-        if(!text) { alert("请输入内容"); input.focus(); return; }
+        if(!text) return alert("请输入内容");
         AudioEngine.playTap();
-
         const num = Math.floor(Math.random() * 9999);
         const post = document.createElement('div');
         post.className = 'post';
-
-        const info = document.createElement('div');
-        info.className = 'post-info';
-        info.textContent = `#匿名_${num}`;
-
-        const body = document.createElement('div');
-        body.textContent = text; // safe insertion
-
-        const resonateDiv = document.createElement('div');
-        resonateDiv.style.cssText = 'font-size:11px; color:var(--horror-red); margin-top:10px; cursor:pointer;';
-        resonateDiv.textContent = '🤍 温柔共鸣';
-        resonateDiv.setAttribute('role', 'button');
-        resonateDiv.tabIndex = 0;
-        resonateDiv.addEventListener('click', function() { resonate(this); });
-
-        post.appendChild(info);
-        post.appendChild(body);
-        post.appendChild(resonateDiv);
-
+        post.innerHTML = `
+            <div class="post-info">#匿名_${num}</div>
+            <div>${text}</div>
+            <div style="font-size:11px; color:var(--horror-red); margin-top:10px; cursor:pointer;" onclick="resonate(this)">🤍 温柔共鸣</div>
+        `;
         list.prepend(post);
         input.value = '';
         hideModal('post-modal');
     }
-
-    // 初始化初始 UI 状态 & 事件绑定
-    (function init() {
-        // Ensure stamina shows correctly on start
-        updateStaminaUI();
-
-        // bind splash tap accessibility (keyboard)
-        const splash = document.getElementById('splash-view');
-        splash.addEventListener('click', toAuth);
-        splash.addEventListener('keydown', (e) => { if(e.key === 'Enter') toAuth(); });
-
-        // auth confirm
-        document.getElementById('auth-confirm').addEventListener('click', toGame);
-
-        // post fab keyboard
-        const postFab = document.getElementById('post-fab');
-        postFab.addEventListener('keydown', (e) => { if (e.key === 'Enter') showModal('post-modal'); });
-
-        // Make sure audio resumes after init attempt
-        document.addEventListener('pointerdown', () => {
-            if (AudioEngine.ctx && AudioEngine.ctx.state === 'suspended') AudioEngine.ctx.resume().catch(()=>{});
-        }, { once: true });
-    })();
-
-    // cleanup on unload (stop oscillators if any)
-    window.addEventListener('beforeunload', () => {
-        if (AudioEngine.droneOscs && AudioEngine.ctx) {
-            AudioEngine.droneOscs.forEach(o => { try { o.stop(); } catch(e){} });
-        }
-    });
 </script>
 </body>
 </html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
