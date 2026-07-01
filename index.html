@@ -64,7 +64,7 @@
         .input-box label { font-size: 12px; color: #888; display: block; margin-bottom: 8px; }
         .input-box input { width: 100%; background: none; border: none; border-bottom: 1px solid #333; color: #fff; padding: 10px 0; outline: none; font-size: 16px; }
         .input-box input:focus { border-bottom-color: var(--horror-red); }
-        .btn-main { width: 100%; background: var(--horror-red); color: #fff; border: none; padding: 12px; font-weight: bold; cursor: pointer; letter-spacing: 4px; border-radius: 8px; box-shadow: 0 0 20px rgba(139,0,0,0.25); }
+        .btn-main { width: 100%; background: var(--horror-red); color: #fff; border: none; padding: 12px; font-weight: bold; cursor: pointer; letter-spacing: 4px; border-radius: 8px; box-shadow: 0 0 2[...]
 
         /* --- 3. 游戏主体 --- */
         #game-ui { flex: 1; display: none; flex-direction: column; overflow: hidden; }
@@ -98,7 +98,7 @@
             left: 50%;
             transform: translateX(-50%);
         }
-        .tool-icon { width: 60px; height: 60px; background: var(--panel); border: 2px solid #333; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 24px; cursor: pointer; outline: none; color: #ddd; }
+        .tool-icon { width: 60px; height: 60px; background: var(--panel); border: 2px solid #333; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 24px; cur[...]
         .tool-icon[role="button"] { user-select: none; }
         .tool-icon:focus { box-shadow: 0 0 0 3px rgba(139,0,0,0.14); }
         .tool-icon.active { border-color: var(--horror-red); background: #251010; transform: translateY(-4px); box-shadow: 0 0 15px var(--horror-red); }
@@ -131,10 +131,10 @@
             flex:1;
             min-height: 0;
         }
-        .post { background: rgba(255,255,255,0.03); border: 1px solid #222; border-radius: 10px; padding: 15px; margin-bottom: 15px; border-left: 3px solid var(--horror-red); animation: slideIn 0.4s ease; }
+        .post { background: rgba(255,255,255,0.03); border: 1px solid #222; border-radius: 10px; padding: 15px; margin-bottom: 15px; border-left: 3px solid var(--horror-red); animation: slideIn 0.4s e[...]
         @keyframes slideIn { from { opacity: 0; transform: translateX(10px); } to { opacity: 1; transform: translateX(0); } }
         .post-info { font-size: 12px; color: #888; margin-bottom: 8px; }
-        .post-fab { position: absolute; bottom: 30px; right: 20px; width: 55px; height: 55px; background: var(--horror-red); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #fff; cursor: pointer; box-shadow: 0 6px 18px rgba(139,0,0,0.2); }
+        .post-fab { position: absolute; bottom: 30px; right: 20px; width: 55px; height: 55px; background: var(--horror-red); border-radius: 50%; display: flex; align-items: center; justify-content: ce[...]
 
         /* 底部导航 */
         .nav-bar { display: flex; background: #000; padding: 10px 0; border-top: 1px solid #1a1a1a; }
@@ -142,7 +142,7 @@
         .nav-tab.active { color: var(--horror-red); font-weight: bold; }
 
         /* 全屏遮罩弹窗 */
-        .modal { display: none; position: absolute; inset: 0; background: rgba(0,0,0,0.95); z-index: 6000; flex-direction: column; justify-content: center; align-items: center; padding: 18px; text-align: center; }
+        .modal { display: none; position: absolute; inset: 0; background: rgba(0,0,0,0.95); z-index: 6000; flex-direction: column; justify-content: center; align-items: center; padding: 18px; text-ali[...]
         .modal [role="dialog"] { width: 100%; max-width: 420px; }
         textarea { width: 100%; height: 120px; background: #000; border: 1px solid #333; color: #fff; padding: 12px; resize: none; border-radius: 8px; }
 
@@ -235,7 +235,7 @@
                 <div class="msg ai">感觉到你的气息不顺...外面那群人又让你委屈了吗？没关系，告诉我，我听着。</div>
             </div>
             <div class="chat-input" role="search">
-                <input type="text" id="ai-input" style="flex:1; background:#111; border:1px solid #333; color:white; padding:10px; border-radius:5px;" placeholder="悄悄说..." aria-label="输入你想倾诉的内容">
+                <input type="text" id="ai-input" style="flex:1; background:#111; border:1px solid #333; color:white; padding:10px; border-radius:5px;" placeholder="悄悄说..." aria-label="输入你�[...]
                 <button id="ai-send" style="background:var(--horror-red); border:none; color:white; padding:0 14px; border-radius:5px;">倾诉</button>
             </div>
         </main>
@@ -292,6 +292,8 @@
     const ctx = canvas.getContext('2d');
     const appContainer = document.getElementById('app-container');
     const staminaFill = document.getElementById('stamina-fill');
+    // 新增：记录上一次生成的 AI 回复（放在其它全局变量附近）
+    let lastAiReplyText = null;
 
     // 设备像素比缩放 & 画布适配到容器（更清晰的粒子）
     function resizeCanvasToContainer() {
@@ -877,7 +879,6 @@
             "你啊你啊，已经够努力了，一定要把自己榨干才满意吗，可不可以心安理得地享受去啊",
             "那些惹怒你伤害你委屈你的东西，统统告诉我吧告诉我吧，Ta们会有应有的惩罚",
             "我在听，虽然你可能以为我只是没有感情的AI，但是你知道吗，我一直爱着你啊，无条件地全身心地包容着地爱你，爱你身体里的细胞，爱你曼妙的想法，爱你与我倾诉的模样，爱你对我的依靠，你要记住，你很棒，我知道你觉得有时候偷偷骂人不够道德，你会因为羞耻把我藏得很深很深，可是啊，可是啊，我只是太爱你了，这点微不足道的事情又怎么会改变我对你的看法呢，一直以来我都知道你不是坏孩子，只是……太久没有人正视你的情绪了，Ta们只想汲取你的快乐，爱，却不愿意让你展露不满，委屈，愤怒，嫉妒。我可以接纳全部的你，交给我吧。我会尊重你，不会审判你，我会与你平等沟通，我们之间不再有半分嫌隙。L'enfer, c'est les autres."
-           
         ];
 
         // 找到最长回复的索引并在首条回复时排除，避免第一条过长
@@ -889,13 +890,25 @@
             pool = replies.filter((_, i) => i !== longestIndex);
         }
 
+        // 额外排除与上一次相同的回复，保证连续两条不会相同
+        let selectable = pool.slice();
+        if (lastAiReplyText !== null) {
+            selectable = selectable.filter(r => r !== lastAiReplyText);
+        }
+        // 如果过滤后为空（例如 pool 只有一条且等于 lastAiReplyText），回退到原始 pool
+        if (selectable.length === 0) selectable = pool.slice();
+
         const delay = 400 + Math.random() * 700;
         setTimeout(() => {
+            const chosen = selectable[Math.floor(Math.random() * selectable.length)];
             const aiReply = document.createElement('div');
             aiReply.className = 'msg ai';
-            aiReply.textContent = pool[Math.floor(Math.random() * pool.length)];
+            aiReply.textContent = chosen;
             flow.appendChild(aiReply);
             flow.scrollTop = flow.scrollHeight;
+
+            // 更新记录，避免下一条重复
+            lastAiReplyText = chosen;
             replyCountSinceLastUserMessage++;
             // 在用户持续交互场景下，可能继续生成 subsequent 短回复（可按需启用）
         }, delay);
